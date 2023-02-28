@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MoviesProject.Models.Movies>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function () {
+        $("#txtSearchByMovie").autocomplete({
+            source: '@Url.Action("GetMoviesAsync")',
+            minLength: 1
+        });
+    });
+    $(function () {
+        $("#txtSearchByGenre").autocomplete({
+            source: '@Url.Action("GetGenresAsync")',
+            minLength: 1
+        });
+    });
+    $(function () {
+        $("#txtSearchByYear").autocomplete({
+            source: '@Url.Action("GetYearAsync")',
+            minLength: 1
+        });
+    });
+</script>
+
+
+<h2>All Movies</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+<hr />
+
+
+
+@using (Html.BeginForm())
+{
+    <b>Movie Name:</b>
+    @Html.TextBox("searchbyMovie", null, new { id = "txtSearchByMovie" })
+    <input type="submit" value="Search" />
+
+    <b>Genre Name:</b>
+        @Html.TextBox("searchbyGenre", null, new { id = "txtSearchByGenre" })
+        <input type="submit" value="Search" />
+        <b>Year:</b>
+        @Html.TextBox("searchbyYear", null, new { id = "txtSearchByYear" })
+        <input type="submit" value="Search" />
+}
+
+<hr />
+<table class="table" border="1">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
